@@ -1,4 +1,4 @@
-package homework.chegg.com.chegghomework
+package homework.chegg.com.chegghomework.ui.activities
 
 import android.os.Bundle
 import android.view.Menu
@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
+import homework.chegg.com.chegghomework.R
 
 class MainActivity : AppCompatActivity() {
     private var toolbar: Toolbar? = null

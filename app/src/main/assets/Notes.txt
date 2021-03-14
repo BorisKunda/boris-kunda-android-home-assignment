@@ -1,0 +1,26 @@
+***Source A***
+
+JsonObj -> JsonArray "stories" -> title,subtitle,imageUrl
+                             -> ...
+                             -> ...
+
+----------------------------------------------------------------------------------------------------
+
+***Source B***
+
+JsonObj -> JsonObj "metadata"-> JsonArray "innerdata" -> articleId,
+                                                         JsonObj "articlewrapper"  -> header,description
+                                                         ,picture
+                                                      -> ...
+                                                      -> ...
+
+                             -> "sometext"
+
+----------------------------------------------------------------------------------------------------
+
+***Source C***
+
+JsonArray-> JsonObj -> topLine,subline1,subline2,image
+                    -> ...
+                    -> ...
+
