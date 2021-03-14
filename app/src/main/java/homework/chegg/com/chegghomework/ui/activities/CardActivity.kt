@@ -10,7 +10,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
 import homework.chegg.com.chegghomework.R
 
-class MainActivity : AppCompatActivity() {
+class CardActivity : AppCompatActivity() {
     private var toolbar: Toolbar? = null
     private var mRecyclerView: RecyclerView? = null
     override fun onCreate(savedInstanceState: Bundle?) {

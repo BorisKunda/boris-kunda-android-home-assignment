@@ -6,7 +6,7 @@ JsonObj -> JsonArray "stories" -> title,subtitle,imageUrl
 
 ----------------------------------------------------------------------------------------------------
 
-***Source B***
+***Source B***|||The relevant fields here are "header", "description" and "picture".
 
 JsonObj -> JsonObj "metadata"-> JsonArray "innerdata" -> articleId,
                                                          JsonObj "articlewrapper"  -> header,description
@@ -18,9 +18,13 @@ JsonObj -> JsonObj "metadata"-> JsonArray "innerdata" -> articleId,
 
 ----------------------------------------------------------------------------------------------------
 
-***Source C***
+***Source C***|||subtitle here is a concatintation of subLine1 + subLine2.
 
 JsonArray-> JsonObj -> topLine,subline1,subline2,image
                     -> ...
                     -> ...
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+title  subtitle picture
+///////////////////////////////////////////////////////////////////////////////////////////////////
 
