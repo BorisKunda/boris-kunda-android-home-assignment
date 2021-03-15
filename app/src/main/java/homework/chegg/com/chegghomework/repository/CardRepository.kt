@@ -42,6 +42,6 @@ class CardRepository private constructor(application: Application) {
 
     }
 
-    suspend fun getASource() = apiService.getSourceA()
+    suspend fun getSourceA() = apiService.getSourceA()
 
 }

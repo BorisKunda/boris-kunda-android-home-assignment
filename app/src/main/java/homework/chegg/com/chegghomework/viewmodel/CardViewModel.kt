@@ -24,6 +24,8 @@ class CardViewModel(application: Application) : AndroidViewModel(application) {/
 
     }
 
-
+    fun getSourceA():LiveData<SourceA> = liveData(Dispatchers.IO) {
+        emit(cardRepository.getSourceA())
+    }
 
 }

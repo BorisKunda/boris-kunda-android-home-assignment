@@ -1,6 +1,7 @@
 package homework.chegg.com.chegghomework.ui.activities
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -34,9 +35,11 @@ class CardActivity : AppCompatActivity() {
         mRecyclerView = findViewById<View>(R.id.my_recycler_view) as RecyclerView
     }
 
-  private fun setObservers() {
-
-  }
+    private fun setObservers() {
+        cardViewModel.getSourceA().observe(this, {
+            Log.d(TAG, "setObservers: " + it)
+        })
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main_activity, menu)
