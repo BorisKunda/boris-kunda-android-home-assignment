@@ -1,13 +1,16 @@
 package homework.chegg.com.chegghomework.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.*
+import android.util.Log
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import homework.chegg.com.chegghomework.model.*
 import homework.chegg.com.chegghomework.repository.CardRepository
-import homework.chegg.com.chegghomework.utils.SingleLiveEvent
-import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 class CardViewModel(application: Application) : AndroidViewModel(application) {//todo - make custom view model factory
@@ -16,16 +19,44 @@ class CardViewModel(application: Application) : AndroidViewModel(application) {/
     var aListLd: LiveData<List<ItemA>> = MutableLiveData()
     var bListLd: LiveData<List<ItemB>> = MutableLiveData()
     var cListLd: LiveData<List<ItemC>> = MutableLiveData()
+    var sourceAMld: MutableLiveData<SourceA> = MutableLiveData()
+    var sourceA1: SourceA? = null
+    var sourceA2: SourceA? = null
+    var sourceA3: SourceA? = null
+
+    private val TAG = this::class.java.simpleName
+
     private val cardRepository: CardRepository = CardRepository.getRepoInstance(application)
 
     init {
 
+        viewModelScope.launch {
 
+
+            coroutineScope {
+
+                async(Dispatchers.IO) {
+                    //cardRepository.getSourceA()
+                }.await()
+
+                async(Dispatchers.IO) {
+                    //cardRepository.getSourceB()
+                }.await()
+
+                async(Dispatchers.IO) {
+                    //cardRepository.getSourceC()
+                }.await()
+
+                Log.i(TAG, "Sources Loaded Successfully")
+
+            }
+
+        }
 
     }
 
-    fun getSourceA():LiveData<SourceA> = liveData(Dispatchers.IO) {
-        emit(cardRepository.getSourceA())
-    }
+    //  fun getSourceA():LiveData<SourceA> = liveData(Dispatchers.IO) {
+    //      emit(cardRepository.getSourceA())
+    //  }
 
 }

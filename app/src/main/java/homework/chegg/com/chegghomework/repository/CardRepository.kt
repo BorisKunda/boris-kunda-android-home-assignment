@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import homework.chegg.com.chegghomework.api.ApiService
 import homework.chegg.com.chegghomework.api.RetrofitBuilder
 import homework.chegg.com.chegghomework.model.*
-import retrofit2.Retrofit
 
 class CardRepository private constructor(application: Application) {
 
@@ -13,12 +12,12 @@ class CardRepository private constructor(application: Application) {
     private var aList: List<ItemA> = mutableListOf()
     private var bList: List<ItemB> = mutableListOf()
     private var cList: List<ItemC> = mutableListOf()
-    private var sourceA:SourceA = SourceA(aList)
+    private var sourceA: SourceA = SourceA(aList)
     private val apiService: ApiService = RetrofitBuilder.apiService
 
-   enum class SourceType {
-       A, B, C
-   }
+    enum class SourceType {
+        A, B, C
+    }
 
     enum class Status {
         SUCCESS,
@@ -42,6 +41,10 @@ class CardRepository private constructor(application: Application) {
 
     }
 
-    suspend fun getSourceA() = apiService.getSourceA()
+
+    suspend fun getSourceA(): SourceA = apiService.getSourceA()
+    //suspend fun getSourceB(): SourceB = apiService.getSourceB()
+    //suspend fun getSourceC(): SourceC = apiService.getSourceC()
+
 
 }

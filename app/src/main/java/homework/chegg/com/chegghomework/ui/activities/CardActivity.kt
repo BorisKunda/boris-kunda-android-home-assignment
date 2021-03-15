@@ -1,25 +1,26 @@
 package homework.chegg.com.chegghomework.ui.activities
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import homework.chegg.com.chegghomework.R
 import homework.chegg.com.chegghomework.viewmodel.CardViewModel
+
 
 class CardActivity : AppCompatActivity() {
     private val TAG = this::class.java.simpleName
     private var toolbar: Toolbar? = null
     private var mRecyclerView: RecyclerView? = null
-    private val cardViewModel: CardViewModel by viewModels()
+    private lateinit var cardViewModel: CardViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        cardViewModel = ViewModelProvider(this)[CardViewModel::class.java]
         buildUI()
         setObservers()
     }
@@ -36,9 +37,14 @@ class CardActivity : AppCompatActivity() {
     }
 
     private fun setObservers() {
-        cardViewModel.getSourceA().observe(this, {
-            Log.d(TAG, "setObservers: " + it)
-        })
+
+     // cardViewModel.sourceAMld.observe(this, {
+     //     Log.d(TAG, "setObservers: " + it)
+     // })
+
+      // cardViewModel.getSourceA().observe(this, {
+      //     Log.d(TAG, "setObservers: " + it)
+      // })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
