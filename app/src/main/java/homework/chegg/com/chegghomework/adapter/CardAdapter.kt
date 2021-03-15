@@ -6,11 +6,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import homework.chegg.com.chegghomework.R
-import homework.chegg.com.chegghomework.data.Card
+import homework.chegg.com.chegghomework.model.Card
 
 class CardAdapter : RecyclerView.Adapter<CardAdapter.CardViewHolder>() {
 
-    var cardsMutableList: MutableList<Card> = mutableListOf()
+    var cardMutableList: MutableList<Card> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -19,20 +19,21 @@ class CardAdapter : RecyclerView.Adapter<CardAdapter.CardViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
-        val card = cardsMutableList[position]
+        val card = cardMutableList[position]
         holder.apply {
             titleTv.text = card.title
-            subTitleTv.text = card.subTitle
+            subtitleTv.text = card.subtitle
+            //todo image
         }
     }
 
-    override fun getItemCount(): Int = cardsMutableList.size
+    override fun getItemCount(): Int = cardMutableList.size
 
 
     //ViewHolder
     class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val titleTv = itemView.findViewById<TextView>(R.id.textView_card_item_title)
-        val subTitleTv = itemView.findViewById<TextView>(R.id.textView_card_item_subtitle)
+        val titleTv: TextView = itemView.findViewById(R.id.textView_card_item_title)
+        val subtitleTv: TextView = itemView.findViewById(R.id.textView_card_item_subtitle)
         //todo image
     }
 

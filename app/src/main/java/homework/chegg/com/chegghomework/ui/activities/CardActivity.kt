@@ -5,17 +5,22 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
 import homework.chegg.com.chegghomework.R
+import homework.chegg.com.chegghomework.viewmodel.CardViewModel
 
 class CardActivity : AppCompatActivity() {
+    private val TAG = this::class.java.simpleName
     private var toolbar: Toolbar? = null
     private var mRecyclerView: RecyclerView? = null
+    private val cardViewModel: CardViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         buildUI()
+        setObservers()
     }
 
     private fun setupToolbar() {
@@ -28,6 +33,10 @@ class CardActivity : AppCompatActivity() {
         setupToolbar()
         mRecyclerView = findViewById<View>(R.id.my_recycler_view) as RecyclerView
     }
+
+  private fun setObservers() {
+
+  }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main_activity, menu)

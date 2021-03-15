@@ -1,16 +1,29 @@
 package homework.chegg.com.chegghomework.repository
 
 import android.app.Application
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import homework.chegg.com.chegghomework.data.Card
+import homework.chegg.com.chegghomework.api.ApiService
+import homework.chegg.com.chegghomework.api.RetrofitBuilder
+import homework.chegg.com.chegghomework.model.*
+import retrofit2.Retrofit
 
 class CardRepository private constructor(application: Application) {
 
-    var cardsListMld: MutableLiveData<Card> = MutableLiveData()
+    var cardListMld: MutableLiveData<Card> = MutableLiveData()
+    private var aList: List<ItemA> = mutableListOf()
+    private var bList: List<ItemB> = mutableListOf()
+    private var cList: List<ItemC> = mutableListOf()
+    private var sourceA:SourceA = SourceA(aList)
+    private val apiService: ApiService = RetrofitBuilder.apiService
 
-    enum class Source {
-        A, B, C
+   enum class SourceType {
+       A, B, C
+   }
+
+    enum class Status {
+        SUCCESS,
+        ERROR,
+        LOADING
     }
 
     init {
@@ -28,5 +41,7 @@ class CardRepository private constructor(application: Application) {
         }
 
     }
+
+    suspend fun getASource() = apiService.getSourceA()
 
 }
