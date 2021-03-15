@@ -1,8 +1,9 @@
 package homework.chegg.com.chegghomework.api
 
-import homework.chegg.com.chegghomework.model.SourceA
-import homework.chegg.com.chegghomework.model.SourceB
-import homework.chegg.com.chegghomework.model.SourceC
+import homework.chegg.com.chegghomework.model.a.SourceA
+import homework.chegg.com.chegghomework.model.b.SourceB
+import homework.chegg.com.chegghomework.model.c.ItemC
+import homework.chegg.com.chegghomework.model.c.SourceC
 import homework.chegg.com.chegghomework.utils.Consts
 import retrofit2.http.GET
 
@@ -15,6 +16,6 @@ interface ApiService {
     suspend fun getSourceB(): SourceB
 
     @GET(Consts.DATA_SOURCE_C_ENDPOINT)
-    suspend fun getSourceC(): SourceC
+    suspend fun getSourceC(): List<ItemC>
 
 }
