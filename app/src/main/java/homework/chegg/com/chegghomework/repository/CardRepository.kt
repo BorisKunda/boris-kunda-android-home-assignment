@@ -6,8 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import homework.chegg.com.chegghomework.api.ApiService
 import homework.chegg.com.chegghomework.api.RetrofitBuilder
 import homework.chegg.com.chegghomework.model.Card
-import homework.chegg.com.chegghomework.model.ItemB
-import homework.chegg.com.chegghomework.model.a.ItemA
 import homework.chegg.com.chegghomework.model.a.SourceA
 import homework.chegg.com.chegghomework.model.b.SourceB
 import homework.chegg.com.chegghomework.model.c.ItemC
@@ -17,11 +15,6 @@ import kotlinx.coroutines.coroutineScope
 
 class CardRepository private constructor(application: Application) {
 
-    var cardListMld: MutableLiveData<Card> = MutableLiveData()
-    private var aList: List<ItemA> = mutableListOf()
-    private var bList: List<ItemB> = mutableListOf()
-    private var cList: List<ItemC> = mutableListOf()
-    private var sourceA: SourceA = SourceA(aList)
     private val apiService: ApiService = RetrofitBuilder.apiService
     private val TAG = this::class.java.simpleName
 
@@ -51,20 +44,16 @@ class CardRepository private constructor(application: Application) {
 
     }
 
-    suspend fun loadCards(): List<Card> {
+    suspend fun loadCards() : MutableList<Card>{
 
         var sourceA: SourceA
         var sourceB: SourceB
-        var sourceC: List<ItemC>
-        var cardListFromA: List<Card> = mutableListOf()
-        var cardListFromB: List<Card> = mutableListOf()
-        var cardListFromC: List<Card> = mutableListOf()
-        var completeCardsList: List<Card> = mutableListOf()
-
+        var sourceC: MutableList<ItemC>
+        var cardList: MutableList<Card> = mutableListOf()
 
         coroutineScope {
 
-            /**load sources*/
+            /**Load sources*/
 
             sourceA = async(Dispatchers.IO) {
                 apiService.getSourceA()
@@ -78,31 +67,35 @@ class CardRepository private constructor(application: Application) {
                 apiService.getSourceC()
             }.await()
 
-            /** Source -> List<Card> conversion */
+            Log.i(TAG, "Sources Loaded Successfully \n $sourceA \n $sourceB \n SourceC$sourceC")
 
-            Log.i(TAG, "Sources loaded Successfully \n $sourceA \n $sourceB \n SourceC$sourceC")
+            /** Source -> List<Card> Conversion */
 
-            cardListFromA = sourceA.stories.map {
+            val cardListFromA = sourceA.stories.map {
                 Card(it.title, it.subtitle, it.imageUrl)
-            }
+            }.toMutableList()
 
-            cardListFromB = sourceB.metadata.innerData.map {
+            val cardListFromB = sourceB.metadata.innerData.map {
                 Card(it.articleWrapper.header, it.articleWrapper.description, it.imageUrl)
-            }
+            }.toMutableList()
 
-            cardListFromC = sourceC.map {
+            val cardListFromC = sourceC.map {
                 Card(it.topLine,
                         "${it.subLine1}${it.subLine2}",
                         it.imageUrl)
-            }
+            }.toMutableList()
 
-            /** multiple cardLists merge */
+            /** Multiple CardLists Merge */
 
+            val cardMListToMerge: MutableList<List<Card>> = mutableListOf(cardListFromA, cardListFromB, cardListFromC)
 
+            val completeCardsList = cardMListToMerge.flatten().toMutableList()
+
+            cardList = completeCardsList
 
         }
 
-        return completeCardsList
+        return cardList
 
     }
 

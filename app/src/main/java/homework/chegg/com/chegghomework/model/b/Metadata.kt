@@ -6,5 +6,5 @@ import homework.chegg.com.chegghomework.model.ItemB
 data class Metadata(@SerializedName("this")
                     var unimportant: String,
                     @SerializedName("innerdata")
-                    var innerData: List<ItemB>
+                    var innerData: MutableList<ItemB>
 )

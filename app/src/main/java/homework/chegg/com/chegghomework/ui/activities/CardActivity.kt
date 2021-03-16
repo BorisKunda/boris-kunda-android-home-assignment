@@ -4,20 +4,25 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Adapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import homework.chegg.com.chegghomework.R
+import homework.chegg.com.chegghomework.adapter.CardAdapter
 import homework.chegg.com.chegghomework.viewmodel.CardViewModel
 
 
 class CardActivity : AppCompatActivity() {
     private val TAG = this::class.java.simpleName
     private var toolbar: Toolbar? = null
-    private var mRecyclerView: RecyclerView? = null
+    private lateinit var mRecyclerView: RecyclerView
     private lateinit var cardViewModel: CardViewModel
+    private val cardAdapter: CardAdapter = CardAdapter()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         cardViewModel = ViewModelProvider(this)[CardViewModel::class.java]
@@ -33,18 +38,27 @@ class CardActivity : AppCompatActivity() {
     private fun buildUI() {
         setContentView(R.layout.activity_main)
         setupToolbar()
-        mRecyclerView = findViewById<View>(R.id.my_recycler_view) as RecyclerView
+        setRecyclerView()
+    }
+
+    private fun setRecyclerView() {
+        mRecyclerView = findViewById(R.id.my_recycler_view)
+
+        mRecyclerView.apply {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(this@CardActivity)
+            adapter = cardAdapter
+        }
+
     }
 
     private fun setObservers() {
 
-     // cardViewModel.sourceAMld.observe(this, {
-     //     Log.d(TAG, "setObservers: " + it)
-     // })
+        cardViewModel.cardListLd.observe(this, {
+            cardAdapter.cardMutableList = it
+            cardAdapter.notifyDataSetChanged()
+        })
 
-      // cardViewModel.getSourceA().observe(this, {
-      //     Log.d(TAG, "setObservers: " + it)
-      // })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
