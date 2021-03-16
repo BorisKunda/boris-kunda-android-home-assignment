@@ -3,8 +3,10 @@ package homework.chegg.com.chegghomework.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import homework.chegg.com.chegghomework.R
 import homework.chegg.com.chegghomework.model.Card
 
@@ -23,7 +25,7 @@ class CardAdapter : RecyclerView.Adapter<CardAdapter.CardViewHolder>() {
         holder.apply {
             titleTv.text = card.title
             subtitleTv.text = card.subtitle
-            //todo image
+            Glide.with(pictureIv.context).load(card.imageUrl).placeholder(R.drawable.ic_picture_place_holder).into(pictureIv)
         }
     }
 
@@ -34,7 +36,7 @@ class CardAdapter : RecyclerView.Adapter<CardAdapter.CardViewHolder>() {
     class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val titleTv: TextView = itemView.findViewById(R.id.textView_card_item_title)
         val subtitleTv: TextView = itemView.findViewById(R.id.textView_card_item_subtitle)
-        //todo image
+        val pictureIv: ImageView = itemView.findViewById(R.id.imageView_card_item)
     }
 
 }

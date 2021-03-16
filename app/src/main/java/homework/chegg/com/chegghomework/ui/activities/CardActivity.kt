@@ -1,5 +1,6 @@
 package homework.chegg.com.chegghomework.ui.activities
 
+import android.opengl.Visibility
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -11,9 +12,12 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
+import com.airbnb.lottie.LottieDrawable
 import homework.chegg.com.chegghomework.R
 import homework.chegg.com.chegghomework.adapter.CardAdapter
 import homework.chegg.com.chegghomework.viewmodel.CardViewModel
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class CardActivity : AppCompatActivity() {
@@ -21,6 +25,7 @@ class CardActivity : AppCompatActivity() {
     private var toolbar: Toolbar? = null
     private lateinit var mRecyclerView: RecyclerView
     private lateinit var cardViewModel: CardViewModel
+    private lateinit var loadingLav:LottieAnimationView
     private val cardAdapter: CardAdapter = CardAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +43,19 @@ class CardActivity : AppCompatActivity() {
     private fun buildUI() {
         setContentView(R.layout.activity_main)
         setupToolbar()
+        setLoadingLottieAv()
         setRecyclerView()
+    }
+
+    private fun setLoadingLottieAv() {
+
+        loadingLav = loading_lav
+
+        loadingLav.apply {
+            loadingLav.playAnimation()
+            loadingLav.repeatCount = LottieDrawable.INFINITE
+        }
+
     }
 
     private fun setRecyclerView() {
