@@ -17,22 +17,12 @@ import kotlinx.coroutines.coroutineScope
 
 class CardRepository private constructor(application: Application) {
 
-    private val apiService: ApiService = RetrofitBuilder.apiService
-    private val TAG = this::class.java.simpleName
+    private val apiService: ApiService
     val cardDao: CardDao
-
-    enum class SourceType {
-        A, B, C
-    }
-
-    enum class Status {
-        SUCCESS,
-        ERROR,
-        LOADING
-    }
 
     init {
         val db = CardDatabaseBuilder.getCardDatabase(application)
+        apiService = RetrofitBuilder.apiService
         cardDao = db.cardDao()
     }
 
@@ -70,8 +60,6 @@ class CardRepository private constructor(application: Application) {
             sourceC = async(Dispatchers.IO) {
                 apiService.getSourceC()
             }.await()
-
-            Log.i(TAG, "Sources loaded successfully \n $sourceA \n $sourceB \n SourceC$sourceC")
 
             /** Source -> List<Card> conversion */
 

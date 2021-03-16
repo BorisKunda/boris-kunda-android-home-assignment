@@ -11,13 +11,16 @@ import kotlinx.coroutines.launch
 class CardViewModel(application: Application) : AndroidViewModel(application) {
 
 
-    private val cardRepository: CardRepository = CardRepository.getRepoInstance(application)
-    val cardListLd: LiveData<List<Card>> = cardRepository.cardDao.getCardsList()
+    private val cardRepository: CardRepository
+    val cardListLd: LiveData<List<Card>>
 
+    init {
+        cardRepository = CardRepository.getRepoInstance(application)
+        cardListLd = cardRepository.cardDao.getCardsList()
+    }
 
     fun refreshCardsList() {
         viewModelScope.launch { cardRepository.loadCards() }
     }
-
 
 }

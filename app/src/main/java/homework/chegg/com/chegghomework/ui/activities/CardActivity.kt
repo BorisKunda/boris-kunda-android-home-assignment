@@ -20,16 +20,17 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class CardActivity : AppCompatActivity() {
 
-    private val TAG = this::class.java.simpleName
+
     private var toolbar: Toolbar? = null
     private lateinit var mRecyclerView: RecyclerView
     private lateinit var cardViewModel: CardViewModel
     private lateinit var loadingLav: LottieAnimationView
-    private val cardAdapter: CardAdapter = CardAdapter()
+    private lateinit var cardAdapter: CardAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         cardViewModel = ViewModelProvider(this)[CardViewModel::class.java]
+        cardAdapter = CardAdapter()
         buildUI()
         setObservers()
     }
