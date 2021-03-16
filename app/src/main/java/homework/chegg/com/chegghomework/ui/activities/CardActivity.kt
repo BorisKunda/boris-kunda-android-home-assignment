@@ -98,8 +98,12 @@ class CardActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    // TODO fetch data from all data sources, aggregate data and display in RecyclerView
     private fun onRefreshData() {
-        Toast.makeText(this, "Fetch data aggregate and show on RecyclerView", Toast.LENGTH_SHORT).show()
+        cardAdapter.apply {
+            cardMutableList.clear()
+            notifyDataSetChanged()
+        }
+        cardViewModel.refreshCardsList()
     }
+
 }
