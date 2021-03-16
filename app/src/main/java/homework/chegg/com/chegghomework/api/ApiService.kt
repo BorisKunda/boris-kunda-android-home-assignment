@@ -3,7 +3,6 @@ package homework.chegg.com.chegghomework.api
 import homework.chegg.com.chegghomework.model.a.SourceA
 import homework.chegg.com.chegghomework.model.b.SourceB
 import homework.chegg.com.chegghomework.model.c.ItemC
-import homework.chegg.com.chegghomework.model.c.SourceC
 import homework.chegg.com.chegghomework.utils.Consts
 import retrofit2.http.GET
 

@@ -2,7 +2,6 @@ package homework.chegg.com.chegghomework.repository
 
 import android.app.Application
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import homework.chegg.com.chegghomework.api.ApiService
 import homework.chegg.com.chegghomework.api.RetrofitBuilder
 import homework.chegg.com.chegghomework.model.Card
@@ -44,7 +43,7 @@ class CardRepository private constructor(application: Application) {
 
     }
 
-    suspend fun loadCards() : MutableList<Card>{
+    suspend fun loadCards(): MutableList<Card> {
 
         var sourceA: SourceA
         var sourceB: SourceB
@@ -81,7 +80,7 @@ class CardRepository private constructor(application: Application) {
 
             val cardListFromC = sourceC.map {
                 Card(it.topLine,
-                        "${it.subLine1}${it.subLine2}",
+                        "${if (it.subLine1 != null) it.subLine1 else ""}${if (it.subLine2 != null) it.subLine2 else ""}",
                         it.imageUrl)
             }.toMutableList()
 
