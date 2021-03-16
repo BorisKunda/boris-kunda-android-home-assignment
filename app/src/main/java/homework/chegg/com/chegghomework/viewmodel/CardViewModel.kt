@@ -26,7 +26,7 @@ class CardViewModel(application: Application) : AndroidViewModel(application) {/
 
         viewModelScope.launch {
 
-            cardRepository.loadSources()
+            cardRepository.loadCards()
 
         }
 

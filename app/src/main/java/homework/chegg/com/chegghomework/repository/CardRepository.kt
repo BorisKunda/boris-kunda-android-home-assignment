@@ -9,6 +9,7 @@ import homework.chegg.com.chegghomework.model.Card
 import homework.chegg.com.chegghomework.model.ItemB
 import homework.chegg.com.chegghomework.model.a.ItemA
 import homework.chegg.com.chegghomework.model.a.SourceA
+import homework.chegg.com.chegghomework.model.b.SourceB
 import homework.chegg.com.chegghomework.model.c.ItemC
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -50,35 +51,58 @@ class CardRepository private constructor(application: Application) {
 
     }
 
-    suspend fun loadSources() {
+    suspend fun loadCards(): List<Card> {
 
-        var a: Any
-        var b: Any
-        var c: Any
+        var sourceA: SourceA
+        var sourceB: SourceB
+        var sourceC: List<ItemC>
+        var cardListFromA: List<Card> = mutableListOf()
+        var cardListFromB: List<Card> = mutableListOf()
+        var cardListFromC: List<Card> = mutableListOf()
+        var completeCardsList: List<Card> = mutableListOf()
+
 
         coroutineScope {
 
-            a = async(Dispatchers.IO) {
+            /**load sources*/
+
+            sourceA = async(Dispatchers.IO) {
                 apiService.getSourceA()
             }.await()
 
-            b = async(Dispatchers.IO) {
+            sourceB = async(Dispatchers.IO) {
                 apiService.getSourceB()
             }.await()
 
-            c = async(Dispatchers.IO) {
+            sourceC = async(Dispatchers.IO) {
                 apiService.getSourceC()
             }.await()
 
+            /** Source -> List<Card> conversion */
+
+            Log.i(TAG, "Sources loaded Successfully \n $sourceA \n $sourceB \n SourceC$sourceC")
+
+            cardListFromA = sourceA.stories.map {
+                Card(it.title, it.subtitle, it.imageUrl)
+            }
+
+            cardListFromB = sourceB.metadata.innerData.map {
+                Card(it.articleWrapper.header, it.articleWrapper.description, it.imageUrl)
+            }
+
+            cardListFromC = sourceC.map {
+                Card(it.topLine,
+                        "${it.subLine1}${it.subLine2}",
+                        it.imageUrl)
+            }
+
+            /** multiple cardLists merge */
 
 
-            Log.i(TAG, "Sources Loaded Successfully " +
-                    "\n ***A*** $a" +
-                    "\n ***B*** $b" +
-                    "\n ***C*** $c"
-            )
 
         }
+
+        return completeCardsList
 
     }
 

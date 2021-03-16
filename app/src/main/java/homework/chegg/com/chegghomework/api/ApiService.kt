@@ -16,6 +16,6 @@ interface ApiService {
     suspend fun getSourceB(): SourceB
 
     @GET(Consts.DATA_SOURCE_C_ENDPOINT)
-    suspend fun getSourceC(): List<ItemC>
+    suspend fun getSourceC(): MutableList<ItemC>
 
 }
