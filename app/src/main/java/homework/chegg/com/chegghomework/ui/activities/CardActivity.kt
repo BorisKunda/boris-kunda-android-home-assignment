@@ -1,11 +1,9 @@
 package homework.chegg.com.chegghomework.ui.activities
 
-import android.opengl.Visibility
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Adapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -21,11 +19,12 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 
 class CardActivity : AppCompatActivity() {
+
     private val TAG = this::class.java.simpleName
     private var toolbar: Toolbar? = null
     private lateinit var mRecyclerView: RecyclerView
     private lateinit var cardViewModel: CardViewModel
-    private lateinit var loadingLav:LottieAnimationView
+    private lateinit var loadingLav: LottieAnimationView
     private val cardAdapter: CardAdapter = CardAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,8 +71,14 @@ class CardActivity : AppCompatActivity() {
     private fun setObservers() {
 
         cardViewModel.cardListLd.observe(this, {
-            cardAdapter.cardMutableList = it
-            cardAdapter.notifyDataSetChanged()
+
+            if (it.isEmpty()) {
+                cardViewModel.refreshCardsList()
+            } else {
+                cardAdapter.cardMutableList = it.toMutableList()
+                cardAdapter.notifyDataSetChanged()
+            }
+
         })
 
     }

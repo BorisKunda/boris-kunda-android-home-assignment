@@ -2,6 +2,7 @@ package homework.chegg.com.chegghomework.repository
 
 import android.app.Application
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import homework.chegg.com.chegghomework.api.ApiService
 import homework.chegg.com.chegghomework.api.RetrofitBuilder
 import homework.chegg.com.chegghomework.database.CardDao
@@ -18,7 +19,7 @@ class CardRepository private constructor(application: Application) {
 
     private val apiService: ApiService = RetrofitBuilder.apiService
     private val TAG = this::class.java.simpleName
-    private val cardDao: CardDao
+    val cardDao: CardDao
 
     enum class SourceType {
         A, B, C
@@ -47,7 +48,7 @@ class CardRepository private constructor(application: Application) {
 
     }
 
-    suspend fun loadCards(): MutableList<Card> {
+    suspend fun loadCards() {
 
         var sourceA: SourceA
         var sourceB: SourceB
@@ -101,8 +102,6 @@ class CardRepository private constructor(application: Application) {
             cardDao.insertAll(cardList)
 
         }
-
-        return cardList
 
     }
 
