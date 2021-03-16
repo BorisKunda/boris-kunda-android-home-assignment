@@ -4,6 +4,8 @@ import android.app.Application
 import android.util.Log
 import homework.chegg.com.chegghomework.api.ApiService
 import homework.chegg.com.chegghomework.api.RetrofitBuilder
+import homework.chegg.com.chegghomework.database.CardDao
+import homework.chegg.com.chegghomework.database.CardDatabaseBuilder
 import homework.chegg.com.chegghomework.model.Card
 import homework.chegg.com.chegghomework.model.a.SourceA
 import homework.chegg.com.chegghomework.model.b.SourceB
@@ -16,6 +18,7 @@ class CardRepository private constructor(application: Application) {
 
     private val apiService: ApiService = RetrofitBuilder.apiService
     private val TAG = this::class.java.simpleName
+    private val cardDao: CardDao
 
     enum class SourceType {
         A, B, C
@@ -28,7 +31,8 @@ class CardRepository private constructor(application: Application) {
     }
 
     init {
-
+        val db = CardDatabaseBuilder.getCardDatabase(application)
+        cardDao = db.cardDao()
     }
 
     companion object {
@@ -66,9 +70,9 @@ class CardRepository private constructor(application: Application) {
                 apiService.getSourceC()
             }.await()
 
-            Log.i(TAG, "Sources Loaded Successfully \n $sourceA \n $sourceB \n SourceC$sourceC")
+            Log.i(TAG, "Sources loaded successfully \n $sourceA \n $sourceB \n SourceC$sourceC")
 
-            /** Source -> List<Card> Conversion */
+            /** Source -> List<Card> conversion */
 
             val cardListFromA = sourceA.stories.map {
                 Card(it.title, it.subtitle, it.imageUrl)
@@ -84,13 +88,17 @@ class CardRepository private constructor(application: Application) {
                         it.imageUrl)
             }.toMutableList()
 
-            /** Multiple CardLists Merge */
+            /** Multiple CardLists merge */
 
             val cardMListToMerge: MutableList<List<Card>> = mutableListOf(cardListFromA, cardListFromB, cardListFromC)
 
             val completeCardsList = cardMListToMerge.flatten().toMutableList()
 
             cardList = completeCardsList
+
+            /** Inserting list to database for caching purposes */
+
+            cardDao.insertAll(cardList)
 
         }
 
